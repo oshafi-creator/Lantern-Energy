@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lantern Energy — Intelligence Platform</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f2efe9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+#header {
+  background: #1a3a5c;
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+#header img { height: 40px; width: auto; }
+#header nav { display: flex; gap: 16px; align-items: center; }
+#header nav a {
+  color: #8aaec8;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color .15s;
+}
+#header nav a:hover { color: #ffffff; }
+
+/* ── HERO ── */
+#hero {
+  background: linear-gradient(160deg, #1a3a5c 0%, #254d7a 60%, #0e7490 100%);
+  padding: 80px 48px 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(14,116,144,0.3) 0%, transparent 60%);
+  pointer-events: none;
+}
+#hero .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: #e07020;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+#hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  position: relative;
+}
+#hero h1 span { color: #e07020; }
+#hero p {
+  font-size: 18px;
+  color: #aac4d8;
+  max-width: 580px;
+  margin: 0 auto 36px;
+  line-height: 1.65;
+  position: relative;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num {
+  font-size: 32px;
+  font-weight: 700;
+  color: #e07020;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-stat .lbl {
+  font-size: 12px;
+  color: #8aaec8;
+  font-weight: 500;
+  letter-spacing: .03em;
+}
+
+/* ── TOOLS SECTION ── */
+#tools {
+  padding: 72px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+#tools .section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #e07020;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+#tools h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin-bottom: 48px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.tool-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #d6d2c8;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: box-shadow .2s, transform .2s;
+  display: flex;
+  flex-direction: column;
+}
+.tool-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.card-accent {
+  height: 5px;
+  width: 100%;
+}
+.card-accent.orange { background: #e07020; }
+.card-accent.teal   { background: #0e7490; }
+.card-accent.slate  { background: #3b5ea6; }
+
+.card-body { padding: 16px 20px 12px; flex: 1; display: flex; flex-direction: column; }
+
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.card-header-row h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 0;
+  white-space: nowrap;
+}
+.card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.card-icon.orange { background: #fdf0e6; }
+.card-icon.teal   { background: #e0f4f8; }
+.card-icon.slate  { background: #eaeefc; }
+
+
+.card-body .card-sub {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.card-sub.orange { color: #e07020; }
+.card-sub.teal   { color: #0e7490; }
+
+.card-body p {
+  font-size: 13px;
+  color: #5a5a58;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  flex: 1;
+}
+
+.card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 0;
+}
+.chip {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.chip.orange { background: #fdf0e6; color: #b85a10; }
+.chip.teal   { background: #e0f4f8; color: #0a5c6e; }
+.chip.slate  { background: #eaeefc; color: #2d4a8a; }
+
+.card-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #f0ede8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-meta { font-size: 12px; color: #9a9690; }
+
+.btn-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .15s, transform .1s;
+  white-space: nowrap;
+}
+.btn-launch:hover { opacity: 0.88; transform: scale(0.98); }
+.btn-launch:active { transform: scale(0.96); }
+.btn-launch.orange { background: #e07020; color: #ffffff; }
+.btn-launch.teal   { background: #0e7490; color: #ffffff; }
+.btn-launch.slate  { background: #3b5ea6; color: #ffffff; }
+
+.btn-launch svg { flex-shrink: 0; }
+
+
+
+/* ── FOOTER ── */
+#footer {
+  background: #111e2e;
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+#footer .left { font-size: 12px; color: #4a6278; }
+#footer .right { font-size: 12px; color: #4a6278; }
+#footer a { color: #6a8fa8; text-decoration: none; }
+#footer a:hover { color: #8aaec8; }
+
+@media (max-width: 600px) {
+  #header { padding: 0 20px; }
+  #hero { padding: 52px 24px 48px; }
+  #hero h1 { font-size: 32px; }
+  #tools { padding: 48px 24px; }
+  .tool-grid { grid-template-columns: 1fr; }
+  #footer { padding: 20px 24px; }
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.card-footer.compact {
+  padding: 8px 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <img src="data:image/png;base64,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" alt="Lantern Energy">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="eia_generator_map_10.html">US Generation</a>
+    <a href="lantern_datacenter_map.html">Data Centers</a>
+    <a href="wws_map.html">Wind, Water & Solar</a>
+    <a href="utilities_map_14.html">Utilities</a>
+    <a href="/cdn-cgi/l/email-protection#70191e161f301c111e0415021e151e150217095e131f1d">Contact</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="eyebrow">Intelligence Platform</div>
+  <h1>The US energy landscape,<br><span>on one screen.</span></h1>
+  <p>Four purpose-built tools giving energy and real estate developers, energy professionals, and industry consultants instant access to the generation assets, data center infrastructure, utility market structure, and energy transition data shaping the U.S. grid.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">27,500+</div>
+      <div class="lbl">Operating generators</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">1,369</div>
+      <div class="lbl">Utilities mapped</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">1,242</div>
+      <div class="lbl">Data center facilities</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">51</div>
+      <div class="lbl">States + DC covered</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div id="tools">
+  <div class="section-label">Intelligence Tools</div>
+  <h2>Explore the platform</h2>
+
+  <div class="tool-grid">
+
+    <!-- GENERATION MAP CARD -->
+    <div class="tool-card">
+      <div class="card-accent orange"></div>
+      <div class="card-body">
+        <div class="card-header-row">
+          <div class="card-icon orange">
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="3" fill="#e07020"/>
+              <path d="M11 2v3M11 17v3M2 11h3M17 11h3M4.93 4.93l2.12 2.12M14.95 14.95l2.12 2.12M4.93 17.07l2.12-2.12M14.95 7.05l2.12-2.12" stroke="#e07020" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>US Generation</h3>
+          <div class="card-chips">
+            <span class="chip orange">Solar</span>
+            <span class="chip orange">Wind</span>
+            <span class="chip orange">Batteries</span>
+            <span class="chip orange">Hydro</span>
+            <span class="chip orange">Natural Gas</span>
+            <span class="chip orange">Coal</span>
+            <span class="chip orange">Nuclear</span>
+          </div>
+          <a href="eia_generator_map_10.html" class="btn-launch orange btn-sm">Launch tool</a>
+        </div>
+        <p>The complete inventory of US power generation assets — every operating, planned, and retired generator plotted (with filters, exportable to PDF).</p>
+      </div>
+      <div class="card-footer compact">
+        <div class="card-meta">December 2025 &nbsp;·&nbsp; 27,500+ records</div>
+      </div>
+    </div>
+
+    <!-- DATA CENTER CARD -->
+    <div class="tool-card">
+      <div class="card-accent teal"></div>
+      <div class="card-body">
+        <div class="card-header-row">
+          <div class="card-icon teal">
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+              <rect x="2" y="4" width="18" height="4" rx="1.5" stroke="#0e7490" stroke-width="1.6"/>
+              <rect x="2" y="10" width="18" height="4" rx="1.5" stroke="#0e7490" stroke-width="1.6"/>
+              <rect x="2" y="16" width="18" height="4" rx="1.5" stroke="#0e7490" stroke-width="1.6"/>
+              <circle cx="17" cy="6" r="1" fill="#0e7490"/>
+              <circle cx="17" cy="12" r="1" fill="#0e7490"/>
+              <circle cx="17" cy="18" r="1" fill="#0e7490"/>
+            </svg>
+          </div>
+          <h3>Data Centers</h3>
+          <div class="card-chips">
+            <span class="chip teal">AWS</span>
+            <span class="chip teal">Google</span>
+            <span class="chip teal">Meta</span>
+            <span class="chip teal">Microsoft</span>
+            <span class="chip teal">Digital Realty</span>
+            <span class="chip teal">Equinix</span>
+          </div>
+          <a href="lantern_datacenter_map.html" class="btn-launch teal btn-sm">Launch tool</a>
+        </div>
+        <p>Every operating data center facility in the United States mapped and filterable by operator, state, facility type, and size.</p>
+      </div>
+      <div class="card-footer compact">
+        <div class="card-meta">1,242 facilities &nbsp;·&nbsp; 46 states</div>
+      </div>
+    </div>
+
+    <!-- WWS MAP CARD -->
+    <div class="tool-card">
+      <div class="card-accent" style="background:#08519c"></div>
+      <div class="card-body">
+        <div class="card-header-row">
+          <div class="card-icon" style="background:#e8f0fa">
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+              <path d="M3 18L8 8l4 6 3-4 4 8" stroke="#08519c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="8" cy="8" r="2" stroke="#08519c" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <h3>Wind, Water &amp; Solar</h3>
+          <div class="card-chips">
+            <span class="chip" style="background:#e8f0fa;color:#08519c">Wind</span>
+            <span class="chip" style="background:#e8f0fa;color:#08519c">Hydro</span>
+            <span class="chip" style="background:#e8f0fa;color:#08519c">Solar PV</span>
+            <span class="chip" style="background:#e8f0fa;color:#08519c">Solar BTM</span>
+            <span class="chip" style="background:#e8f0fa;color:#08519c">Geothermal</span>
+          </div>
+          <a href="wws_map.html" class="btn-launch btn-sm" style="background:#08519c;color:#ffffff">Launch tool</a>
+        </div>
+        <p>State-by-state view of wind, water, and solar electricity generation as a percentage of demand. See which states lead in WWS penetration (with rankings &amp; energy prices).</p>
+      </div>
+      <div class="card-footer compact">
+        <div class="card-meta">March 2025 &nbsp;·&nbsp; 51 states + DC</div>
+      </div>
+    </div>
+
+    <!-- UTILITIES MAP CARD -->
+    <div class="tool-card">
+      <div class="card-accent slate"></div>
+      <div class="card-body">
+        <div class="card-header-row">
+          <div class="card-icon slate">
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+              <rect x="2" y="3" width="18" height="16" rx="2" stroke="#3b5ea6" stroke-width="1.6"/>
+              <path d="M7 3v16M15 3v16M2 11h18" stroke="#3b5ea6" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>US Utilities</h3>
+          <div class="card-chips">
+            <span class="chip slate">Investor Owned</span>
+            <span class="chip slate">Cooperative</span>
+            <span class="chip slate">Municipal</span>
+          </div>
+          <a href="utilities_map_14.html" class="btn-launch slate btn-sm">Launch tool</a>
+        </div>
+        <p>Every electric utility in the United States plotted by ownership type to understand service areas and market structure across all 50 states.</p>
+      </div>
+      <div class="card-footer compact">
+        <div class="card-meta">December 2024 &nbsp;·&nbsp; 1,369 utilities</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div id="footer">
+  <div class="left">&copy; 2026 Lantern Energy. All rights reserved.</div>
+  <div class="right"><a href="/cdn-cgi/l/email-protection#0c65626a6
