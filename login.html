@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lantern Energy Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+
+  <button id="signupBtn">Sign Up</button>
+  <button id="loginBtn">Log In</button>
+
+  <p id="message"></p>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const supabaseUrl = 'https://wfllgewdehtbnhtxzgcw.supabase.co';
+    const supabaseKey = 'sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const messageEl = document.getElementById('message');
+
+    document.getElementById('signupBtn').addEventListener('click', async () => {
+      const { error } = await supabase.auth.signUp({
+        email: emailEl.value,
+        password: passwordEl.value
+      });
+
+      if (error) {
+        messageEl.textContent = error.message;
+        return;
+      }
+
+      messageEl.textContent = 'Signup successful. Await approval.';
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: emailEl.value,
+        password: passwordEl.value
+      });
+
+      if (error) {
+        messageEl.textContent = error.message;
+        return;
+      }
+
+      window.location.href = '/tools.html';
+    });
+  </script>
+</body>
+</html>

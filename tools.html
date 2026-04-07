@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools</title>
+</head>
+<body>
+  <h1>Protected Tools</h1>
+  <p id="message">Checking access...</p>
+
+  <div id="content" style="display:none;">
+    <p>You have access!</p>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const supabaseUrl = 'https://wfllgewdehtbnhtxzgcw.supabase.co';
+    const supabaseKey = 'sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    async function checkAccess() {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      const { data } = await supabase
+        .from('user_access')
+        .select('has_access')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!data || !data.has_access) {
+        document.getElementById('message').textContent = 'Access not approved yet.';
+        return;
+      }
+
+      document.getElementById('message').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }
+
+    checkAccess();
+  </script>
+</body>
+</html>
