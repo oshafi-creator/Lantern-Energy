@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Wind-Water-Solar Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+body{background:#a8d4e8;color:#2c2c2a;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#header{padding:10px 16px;background:#ffffff;border-bottom:1px solid #d6d2c8;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:500;position:relative}
+#header h1{font-size:15px;font-weight:600;color:#2c2c2a;white-space:nowrap}
+#header .subtitle{font-size:12px;color:#6b6b69}
+#map{flex:1}
+#legend{position:absolute;bottom:28px;right:12px;z-index:1000;background:rgba(255,255,255,0.96);border:1px solid #d0ccc4;border-radius:8px;padding:12px 14px;min-width:220px;max-width:260px;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+#legend h3{font-size:11px;font-weight:600;color:#7a7570;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.legend-row{display:flex;align-items:center;gap:8px;font-size:12px;margin:4px 0;color:#2c2c2a}
+.legend-swatch{width:20px;height:14px;border-radius:3px;flex-shrink:0;border:1px solid rgba(0,0,0,0.1)}
+hr.legend-divider{border:none;border-top:1px solid #e8e4de;margin:8px 0}
+.stat-row{display:flex;justify-content:space-between;font-size:12px;margin:3px 0;gap:16px}
+.stat-label{color:#7a7570}
+.stat-val{color:#2c2c2a;font-weight:500;text-align:right}
+.leaflet-popup-content-wrapper{background:#ffffff;border:1px solid #d0ccc4;border-radius:8px;color:#2c2c2a;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.leaflet-popup-tip{background:#ffffff}
+.leaflet-popup-content{margin:12px 14px;min-width:200px}
+.popup-name{font-weight:600;font-size:14px;margin-bottom:2px;color:#1a1a18}
+.popup-rank{font-size:11px;color:#7a7570;margin-bottom:8px}
+.popup-bar-bg{width:100%;height:8px;background:#eae7e2;border-radius:4px;margin-bottom:10px;overflow:hidden}
+.popup-bar-fill{height:100%;border-radius:4px;transition:width .3s}
+.popup-section-title{font-size:10px;font-weight:600;color:#9a9690;text-transform:uppercase;letter-spacing:.05em;margin:8px 0 4px}
+.popup-row{font-size:12px;color:#7a7570;margin:3px 0;display:flex;justify-content:space-between}
+.popup-row span{color:#2c2c2a;font-weight:500}
+hr.popup-divider{border:none;border-top:1px solid #e8e4de;margin:8px 0}
+.leaflet-control-zoom a{background:#ffffff;color:#2c2c2a;border-color:#c8c4bc}
+.leaflet-control-zoom a:hover{background:#f5f3ef}
+.leaflet-control-attribution{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTAwIDE0MCIgd2lkdGg9IjEwMDAiIGhlaWdodD0iMjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDwhLS0gTm8gYmFja2dyb3VuZCByZWN0ID0gdHJhbnNwYXJlbnQgLS0+CgogIDwhLS0gIkxhbnRlcm4gIiBpbiBkYXJrIG5hdnkgLS0+CiAgPHRleHQgeD0iMzAiIHk9IjkwIgogICAgICAgIGZvbnQtZmFtaWx5PSInQXJpYWwgQmxhY2snLCAnRGVqYVZ1IFNhbnMnLCBzYW5zLXNlcmlmIgogICAgICAgIGZvbnQtd2VpZ2h0PSI5MDAiCiAgICAgICAgZm9udC1zaXplPSI3MiIKICAgICAgICBmaWxsPSIjMWYyYTM3IgogICAgICAgIGxldHRlci1zcGFjaW5nPSItMSI+TGFudGVybiA8L3RleHQ+CgogIDwhLS0gIkVuZXJneSIgaW4gb3JhbmdlIC0tPgogIDx0ZXh0IHg9IjI3OCIgeT0iOTAiCiAgICAgICAgZm9udC1mYW1pbHk9IidBcmlhbCBCbGFjaycsICdEZWphVnUgU2FucycsIHNhbnMtc2VyaWYiCiAgICAgICAgZm9udC13ZWlnaHQ9IjkwMCIKICAgICAgICBmb250LXNpemU9IjcyIgogICAgICAgIGZpbGw9IiNkNjVkMjYiCiAgICAgICAgbGV0dGVyLXNwYWNpbmc9Ii0xIj5FbmVyZ3k8L3RleHQ+CgogIDwhLS0gIklOVEVMTElHRU5DRSBQTEFURk9STSIgc3VidGl0bGUgLS0+CiAgPHRleHQgeD0iMzMiIHk9IjEyMiIKICAgICAgICBmb250LWZhbWlseT0iJ0FyaWFsJywgJ0RlamFWdSBTYW5zJywgc2Fucy1zZXJpZiIKICAgICAgICBmb250LXdlaWdodD0iNDAwIgogICAgICAgIGZvbnQtc2l6ZT0iMTgiCiAgICAgICAgZmlsbD0iIzgyOGE5NCIKICAgICAgICBsZXR0ZXItc3BhY2luZz0iMy41Ij5JTlRFTExJR0VOQ0UgUExBVEZPUk08L3RleHQ+CgogIDwhLS0gU3VidGxlIGFjY2VudCB1bmRlcmxpbmUgLS0+CiAgPHJlY3QgeD0iMzAiIHk9IjEzMCIgd2lkdGg9IjQ0MCIgaGVpZ2h0PSIyIiBmaWxsPSIjZDY1ZDI2IiBvcGFjaXR5PSIwLjUiIHJ4PSIxIi8+Cjwvc3ZnPg==" style="height:38px;width:auto;flex-shrink:0;" alt="Lantern Energy Intelligence Platform">
+  <div style="width:1px;height:36px;background:#e0dbd4;flex-shrink:0"></div>
+  <div>
+    <h1>US Wind-Water-Solar Generation</h1>
+    <div class="subtitle">US Wind-Water-Solar Generation &nbsp;·&nbsp; 2025 WWS as % of Grid + BTM Demand</div>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<div id="legend">
+  <h3>Legend</h3>
+  <div id="legend-rows"></div>
+  <hr class="legend-divider">
+  <div id="legend-stats"></div>
+</div>
+
+<script>
+var map = L.map('map',{zoomControl:true}).setView([39.5,-98.5],4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{
+  attribution:'',maxZoom:19,subdomains:'abcd',opacity:1
+}).addTo(map);
+
+var stateData = {
+  "Alabama":{totalWWS:10.26,hydro:8.84,wind:0.00,geo:0.00,utilPV:1.42,btmPV:0.00,priceRank:31,price:16.11},
+  "Alaska":{totalWWS:31.46,hydro:28.71,wind:2.27,geo:0.00,utilPV:0.12,btmPV:0.36,priceRank:44,price:26.19},
+  "Arizona":{totalWWS:29.15,hydro:4.84,wind:3.08,geo:0.00,utilPV:15.29,btmPV:5.94,priceRank:25,price:15.33},
+  "Arkansas":{totalWWS:15.28,hydro:5.67,wind:0.31,geo:0.00,utilPV:8.21,btmPV:1.08,priceRank:5,price:12.87},
+  "California":{totalWWS:51.29,hydro:9.74,wind:5.69,geo:3.76,utilPV:19.44,btmPV:12.67,priceRank:50,price:32.62},
+  "Colorado":{totalWWS:43.54,hydro:3.00,wind:27.70,geo:0.00,utilPV:9.04,btmPV:3.79,priceRank:29,price:15.83},
+  "Connecticut":{totalWWS:9.58,hydro:1.11,wind:0.04,geo:0.00,utilPV:2.46,btmPV:5.96,priceRank:47,price:29.34},
+  "Delaware":{totalWWS:3.39,hydro:0.00,wind:0.04,geo:0.00,utilPV:1.45,btmPV:1.90,priceRank:34,price:17.25},
+  "Florida":{totalWWS:11.07,hydro:0.06,wind:0.00,geo:0.00,utilPV:9.03,btmPV:1.98,priceRank:23,price:15.23},
+  "Georgia":{totalWWS:9.21,hydro:1.85,wind:0.00,geo:0.00,utilPV:6.96,btmPV:0.40,priceRank:20,price:14.69},
+  "Hawaii":{totalWWS:31.86,hydro:0.74,wind:5.07,geo:2.27,utilPV:8.56,btmPV:15.22,priceRank:51,price:40.65},
+  "Idaho":{totalWWS:52.19,hydro:34.16,wind:10.90,geo:0.28,utilPV:5.70,btmPV:1.15,priceRank:1,price:11.86},
+  "Illinois":{totalWWS:23.50,hydro:0.05,wind:17.32,geo:0.00,utilPV:4.50,btmPV:1.64,priceRank:35,price:17.70},
+  "Indiana":{totalWWS:16.36,hydro:0.32,wind:9.45,geo:0.00,utilPV:6.17,btmPV:0.41,priceRank:32,price:16.28},
+  "Iowa":{totalWWS:75.40,hydro:1.87,wind:70.50,geo:0.00,utilPV:2.10,btmPV:0.93,priceRank:16,price:13.74},
+  "Kansas":{totalWWS:68.59,hydro:0.05,wind:66.97,geo:0.00,utilPV:1.09,btmPV:0.48,priceRank:19,price:14.56},
+  "Kentucky":{totalWWS:7.08,hydro:4.87,wind:0.00,geo:0.00,utilPV:1.97,btmPV:0.24,priceRank:11,price:13.28},
+  "Louisiana":{totalWWS:3.54,hydro:0.81,wind:0.00,geo:0.00,utilPV:2.33,btmPV:0.40,priceRank:4,price:12.56},
+  "Maine":{totalWWS:65.21,hydro:20.31,wind:22.13,geo:0.00,utilPV:11.91,btmPV:10.85,priceRank:46,price:27.84},
+  "Maryland":{totalWWS:8.33,hydro:2.45,wind:1.07,geo:0.00,utilPV:2.07,btmPV:2.75,priceRank:38,price:19.53},
+  "Massachusetts":{totalWWS:13.54,hydro:1.41,wind:0.36,geo:0.00,utilPV:4.31,btmPV:7.46,priceRank:49,price:30.50},
+  "Michigan":{totalWWS:13.97,hydro:1.26,wind:9.59,geo:0.00,utilPV:2.71,btmPV:0.41,priceRank:39,price:19.99},
+  "Minnesota":{totalWWS:28.56,hydro:1.11,wind:22.16,geo:0.00,utilPV:4.55,btmPV:0.73,priceRank:30,price:15.84},
+  "Mississippi":{totalWWS:6.55,hydro:0.00,wind:0.96,geo:0.00,utilPV:5.52,btmPV:0.07,priceRank:18,price:14.09},
+  "Missouri":{totalWWS:11.72,hydro:1.20,wind:7.65,geo:0.00,utilPV:1.87,btmPV:0.99,priceRank:13,price:13.46},
+  "Montana":{totalWWS:101.61,hydro:60.12,wind:38.40,geo:0.00,utilPV:2.14,btmPV:0.96,priceRank:8,price:13.12},
+  "Nebraska":{totalWWS:33.58,hydro:3.16,wind:29.60,geo:0.00,utilPV:0.64,btmPV:0.17,priceRank:3,price:12.41},
+  "Nevada":{totalWWS:50.08,hydro:4.27,wind:0.79,geo:8.77,utilPV:30.86,btmPV:5.39,priceRank:12,price:13.32},
+  "New Hampshire":{totalWWS:18.73,hydro:11.20,wind:3.95,geo:0.00,utilPV:0.03,btmPV:3.54,priceRank:43,price:24.59},
+  "New Jersey":{totalWWS:7.47,hydro:0.01,wind:0.02,geo:0.00,utilPV:2.47,btmPV:4.97,priceRank:41,price:22.42},
+  "New Mexico":{totalWWS:62.54,hydro:0.05,wind:41.79,geo:0.17,utilPV:17.94,btmPV:2.59,priceRank:22,price:15.00},
+  "New York":{totalWWS:27.80,hydro:16.57,wind:4.43,geo:0.00,utilPV:3.36,btmPV:3.44,priceRank:45,price:26.40},
+  "North Carolina":{totalWWS:13.05,hydro:3.13,wind:0.63,geo:0.00,utilPV:8.58,btmPV:0.71,priceRank:17,price:14.03},
+  "North Dakota":{totalWWS:55.20,hydro:6.89,wind:48.30,geo:0.00,utilPV:0.00,btmPV:0.01,priceRank:2,price:12.05},
+  "Ohio":{totalWWS:7.01,hydro:0.25,wind:1.74,geo:0.00,utilPV:4.64,btmPV:0.38,priceRank:33,price:16.98},
+  "Oklahoma":{totalWWS:51.55,hydro:2.20,wind:48.08,geo:0.00,utilPV:0.91,btmPV:0.36,priceRank:7,price:13.08},
+  "Oregon":{totalWWS:64.63,hydro:44.59,wind:14.48,geo:0.28,utilPV:4.11,btmPV:1.17,priceRank:26,price:15.42},
+  "Pennsylvania":{totalWWS:6.36,hydro:1.75,wind:2.35,geo:0.00,utilPV:1.24,btmPV:1.02,priceRank:37,price:19.35},
+  "Rhode Island":{totalWWS:15.69,hydro:0.00,wind:2.29,geo:0.00,utilPV:9.38,btmPV:4.03,priceRank:48,price:29.59},
+  "South Carolina":{totalWWS:7.18,hydro:2.76,wind:0.00,geo:0.00,utilPV:3.66,btmPV:0.77,priceRank:21,price:14.99},
+  "South Dakota":{totalWWS:124.07,hydro:33.56,wind:87.43,geo:0.00,utilPV:3.01,btmPV:0.07,priceRank:14,price:13.48},
+  "Tennessee":{totalWWS:8.73,hydro:7.48,wind:0.00,geo:0.00,utilPV:1.17,btmPV:0.08,priceRank:10,price:13.22},
+  "Texas":{totalWWS:35.40,hydro:0.23,wind:23.49,geo:0.00,utilPV:10.64,btmPV:1.04,priceRank:27,price:15.47},
+  "Utah":{totalWWS:22.87,hydro:1.82,wind:2.11,geo:1.23,utilPV:14.66,btmPV:3.05,priceRank:6,price:13.01},
+  "Vermont":{totalWWS:34.71,hydro:20.09,wind:6.40,geo:0.00,utilPV:3.93,btmPV:4.29,priceRank:42,price:22.96},
+  "Virginia":{totalWWS:7.52,hydro:0.81,wind:0.03,geo:0.00,utilPV:5.94,btmPV:0.73,priceRank:24,price:15.32},
+  "Washington":{totalWWS:78.02,hydro:67.68,wind:8.90,geo:0.00,utilPV:0.65,btmPV:0.79,priceRank:9,price:13.20},
+  "West Virginia":{totalWWS:10.22,hydro:3.62,wind:5.62,geo:0.00,utilPV:0.75,btmPV:0.23,priceRank:28,price:15.48},
+  "Wisconsin":{totalWWS:11.63,hydro:2.95,wind:2.65,geo:0.00,utilPV:5.44,btmPV:0.59,priceRank:36,price:18.17},
+  "Wyoming":{totalWWS:77.16,hydro:5.50,wind:68.70,geo:0.00,utilPV:2.73,btmPV:0.24,priceRank:15,price:13.56},
+  "District of Columbia":{totalWWS:3.55,hydro:0.00,wind:0.00,geo:0.00,utilPV:0.42,btmPV:3.13,priceRank:40,price:22.00}
+};
+
+function getColor(pct){
+  if(pct>100) return '#023858';
+  if(pct>=75) return '#08519c';
+  if(pct>=50) return '#3182bd';
+  if(pct>=35) return '#6baed6';
+  if(pct>=25) return '#9ecae1';
+  if(pct>=15) return '#c6dbef';
+  return '#eff3ff';
+}
+
+// Build legend with state counts
+(function(){
+  var vals = Object.values(stateData).map(function(d){return d.totalWWS;});
+  var buckets = [
+    {label:'&gt; 100%', color:'#023858', test:function(v){return v>100;}},
+    {label:'75 – 100%', color:'#08519c', test:function(v){return v>=75&&v<=100;}},
+    {label:'50 – 75%', color:'#3182bd', test:function(v){return v>=50&&v<75;}},
+    {label:'35 – 50%', color:'#6baed6', test:function(v){return v>=35&&v<50;}},
+    {label:'25 – 35%', color:'#9ecae1', test:function(v){return v>=25&&v<35;}},
+    {label:'15 – 25%', color:'#c6dbef', test:function(v){return v>=15&&v<25;}},
+    {label:'0 – 15%', color:'#eff3ff', test:function(v){return v<15;}}
+  ];
+  var html = '';
+  for(var i=0;i<buckets.length;i++){
+    var count = vals.filter(buckets[i].test).length;
+    html += '<div class="legend-row"><div class="legend-swatch" style="background:'+buckets[i].color+'"></div> '+buckets[i].label+' ('+count+')</div>';
+  }
+  document.getElementById('legend-rows').innerHTML = html;
+  var gte100 = vals.filter(function(v){return v>=100;}).length;
+  var gte75 = vals.filter(function(v){return v>=75;}).length;
+  document.getElementById('legend-stats').innerHTML =
+    '<div class="stat-row"><span class="stat-label">US Total WWS</span><span class="stat-val" style="color:#08519c">25.7%</span></div>'+
+    '<div class="stat-row"><span class="stat-label">States ≥ 100%</span><span class="stat-val">'+gte100+'</span></div>'+
+    '<div class="stat-row"><span class="stat-label">States ≥ 75%</span><span class="stat-val">'+gte75+'</span></div>';
+})();
+
+function buildPopup(name, d){
+  var components = [
+    {label:'Hydro', val:d.hydro},
+    {label:'Wind', val:d.wind},
+    {label:'Geothermal', val:d.geo},
+    {label:'Utility PV+CSP', val:d.utilPV},
+    {label:'BTM Solar PV', val:d.btmPV}
+  ].sort(function(a,b){return b.val-a.val;});
+  var barColor = getColor(d.totalWWS);
+  var barWidth = Math.min(d.totalWWS, 100);
+  var html = '<div class="popup-name">'+name+'</div>';
+  html += '<div class="popup-rank">#'+(Object.values(stateData).filter(function(s){return s.totalWWS>d.totalWWS;}).length+1)+' of 51 by WWS %</div>';
+  html += '<div class="popup-bar-bg"><div class="popup-bar-fill" style="width:'+barWidth+'%;background:'+barColor+'"></div></div>';
+  html += '<div class="popup-section-title">WWS Generation</div>';
+  html += '<div class="popup-row">Total WWS<span style="font-weight:700;color:'+barColor+'">'+d.totalWWS.toFixed(1)+'%</span></div>';
+  html += '<hr class="popup-divider">';
+  html += '<div class="popup-section-title">By Source (Descending)</div>';
+  for(var i=0;i<components.length;i++){
+    if(components[i].val>0) html += '<div class="popup-row">'+components[i].label+'<span>'+components[i].val.toFixed(1)+'%</span></div>';
+  }
+  for(var j=0;j<components.length;j++){
+    if(components[j].val===0) html += '<div class="popup-row" style="opacity:0.45">'+components[j].label+'<span>0.0%</span></div>';
+  }
+  html += '<hr class="popup-divider">';
+  html += '<div class="popup-section-title">Electricity Price</div>';
+  html += '<div class="popup-row">Price Rank<span>#'+d.priceRank+' of 51</span></div>';
+  html += '<div class="popup-row">Retail Price<span>'+d.price.toFixed(1)+' ¢/kWh</span></div>';
+  return html;
+}
+
+fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+.then(function(r){return r.json();})
+.then(function(geo){
+  L.geoJSON(geo,{
+    style: function(feature){
+      var name = feature.properties.name;
+      var d = stateData[name];
+      var pct = d ? d.totalWWS : 0;
+      return {fillColor:getColor(pct),weight:1.2,color:'#ffffff',fillOpacity:0.85};
+    },
+    onEachFeature:function(feature,layer){
+      var name = feature.properties.name;
+      var d = stateData[name];
+      if(d){
+        layer.bindPopup(buildPopup(name,d),{maxWidth:280});
+        layer.on('mouseover',function(){this.setStyle({weight:2.5,color:'#1a3a5c',fillOpacity:0.95});this.bringToFront();});
+        layer.on('mouseout',function(){this.setStyle({weight:1.2,color:'#ffffff',fillOpacity:0.85});});
+      }
+    }
+  }).addTo(map);
+});
+</script>
+</body>
+</html>
