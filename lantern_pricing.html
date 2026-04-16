@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pricing Plans | Lantern Energy Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Libre+Franklin:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy:       #0c1a2e;
+      --navy2:      #14243d;
+      --navy3:      #1d334f;
+      --blue:       #1a5c8a;
+      --blue2:      #2179b5;
+      --sky:        #5bafd6;
+      --sky-lt:     #dff0f9;
+      --orange:     #e05a1e;
+      --orange2:    #f07034;
+      --cream:      #faf8f3;
+      --cream2:     #f0ebe0;
+      --border:     #dbd4c8;
+      --border2:    #c4bbad;
+      --text:       #18120a;
+      --text2:      #3a2e22;
+      --muted:      #7a6d5e;
+      --muted2:     #a89d8e;
+      --white:      #ffffff;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Libre Franklin', sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+      --green:      #2d7a4f;
+      --green-lt:   #e6f4ec;
+      --green-bd:   #b0d9c0;
+      --amber:      #8a6d1a;
+      --amber-lt:   #fdf6e3;
+      --amber-bd:   #e0d2a0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--navy);
+      padding: 7px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .top-bar-left {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .top-bar-links { display: flex; gap: 20px; list-style: none; }
+    .top-bar-links a {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .top-bar-links a:hover { color: rgba(255,255,255,0.85); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0; z-index: 200;
+      background: var(--white);
+      border-bottom: 4px solid var(--navy);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    }
+    .nav-logo { text-decoration: none; }
+    .logo-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .logo-name span { color: var(--orange); }
+    .logo-tagline {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0; list-style: none; height: 100%; }
+    .nav-links li { height: 100%; }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 0 18px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      border-bottom: 4px solid transparent;
+      margin-bottom: -4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: var(--navy); border-bottom-color: var(--orange); }
+    .nav-links a.active { color: var(--navy); border-bottom-color: var(--orange); }
+    .nav-cta {
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      border-radius: 3px;
+      border-bottom: none !important;
+      margin-bottom: 0 !important;
+      margin-left: 12px;
+      margin-top: 18px;
+      font-weight: 600 !important;
+      padding: 10px 20px !important;
+      height: auto !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange2) !important; border-color: transparent !important; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: var(--navy);
+      padding: 72px 48px 64px;
+      text-align: center;
+      position: relative;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--orange);
+    }
+    .page-header .section-kicker {
+      justify-content: center;
+      color: var(--orange);
+      margin-bottom: 18px;
+    }
+    .page-header .section-kicker::after { background: var(--orange); }
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .page-header h1 em { font-style: italic; color: var(--sky); }
+    .page-header p {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.52);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 48px; }
+
+    .section-kicker {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-kicker::after { content:''; width:36px; height:2px; background:var(--orange); }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .section-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 700px;
+      line-height: 1.75;
+    }
+
+    .rule { border: none; border-top: 1px solid var(--border); margin: 0 48px; }
+
+    /* ── CATEGORY HEADER ── */
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .category-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ── PRICING TOGGLE ── */
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 56px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 8px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      cursor: pointer;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--border2);
+      border-radius: 24px;
+      transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      left: 3px; top: 3px;
+      background: var(--white);
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--orange); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+    .toggle-label { font-weight: 500; color: var(--text); }
+    .toggle-save {
+      background: var(--orange);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+    .price-monthly { display: flex !important; }
+    .price-annual  { display: none !important; }
+    body.annual .price-monthly { display: none !important; }
+    body.annual .price-annual  { display: flex !important; }
+
+    /* ── PLAN CARDS ── */
+    .plans-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; }
+    .plan-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 32px 26px;
+      position: relative;
+      transition: box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .plan-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); }
+    .plan-card.featured { background:var(--navy); border-color:var(--navy); }
+    .plan-card.trial    { background:var(--sky-lt); border-color:#b5d9ee; }
+
+    /* Legacy plan color variants */
+    .plan-card.legacy-featured { background:var(--green); border-color:var(--green); }
+    .plan-card.legacy-trial    { background:var(--green-lt); border-color:var(--green-bd); }
+
+    .plan-badge {
+      position:absolute; top:-1px; left:-1px; right:-1px;
+      font-family:var(--sans); font-size:10px; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase; text-align:center; padding:5px;
+    }
+    .plan-badge.popular  { background:var(--orange); color:var(--white); }
+    .plan-badge.trial-b  { background:var(--sky);    color:var(--white); }
+    .plan-badge.legacy-popular { background:var(--green); color:var(--white); }
+    .plan-badge.legacy-trial-b { background:#4a9e6e; color:var(--white); }
+
+    .plan-tier { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted2); margin-bottom:8px; height:16px; }
+    .plan-card.featured .plan-tier { color:rgba(255,255,255,0.38); }
+    .plan-card.legacy-featured .plan-tier { color:rgba(255,255,255,0.38); }
+
+    .plan-name { font-family:var(--serif); font-size:24px; font-weight:700; color:var(--navy); margin-bottom:4px; height:34px; display:flex; align-items:center; }
+    .plan-card.featured .plan-name { color:var(--white); }
+    .plan-card.legacy-featured .plan-name { color:var(--white); }
+
+    .plan-price { font-family:var(--sans); font-size:13px; color:var(--muted); margin-bottom:8px; height:auto; display:flex; flex-direction:column; justify-content:flex-start; }
+    .plan-card.featured .plan-price { color:rgba(255,255,255,0.45); }
+    .plan-card.legacy-featured .plan-price { color:rgba(255,255,255,0.45); }
+    .plan-price strong { font-family:var(--serif); font-size:36px; font-weight:700; color:var(--navy); letter-spacing:-0.02em; }
+    .plan-card.featured .plan-price strong { color:var(--white); }
+    .plan-card.legacy-featured .plan-price strong { color:var(--white); }
+
+    .plan-divider { height:1px; background:var(--border); margin-bottom:20px; }
+    .plan-card.featured .plan-divider { background:rgba(255,255,255,0.13); }
+    .plan-card.trial    .plan-divider { background:#b5d9ee; }
+    .plan-card.legacy-featured .plan-divider { background:rgba(255,255,255,0.13); }
+    .plan-card.legacy-trial    .plan-divider { background:var(--green-bd); }
+
+    .plan-features { list-style:none; margin-bottom:28px; flex: 1; }
+    .plan-features li {
+      font-size:13px; font-weight:400; color:var(--text2);
+      padding:7px 0; display:flex; gap:10px; align-items:flex-start;
+      border-bottom:1px solid var(--border);
+    }
+    .plan-features li:last-child { border-bottom:none; }
+    .plan-card.featured .plan-features li { color:rgba(255,255,255,0.78); border-bottom-color:rgba(255,255,255,0.09); }
+    .plan-card.trial    .plan-features li { border-bottom-color:#b5d9ee; }
+    .plan-card.legacy-featured .plan-features li { color:rgba(255,255,255,0.78); border-bottom-color:rgba(255,255,255,0.09); }
+    .plan-card.legacy-trial    .plan-features li { border-bottom-color:var(--green-bd); }
+    .plan-features li::before { content:'—'; color:var(--orange); font-size:11px; flex-shrink:0; margin-top:3px; font-weight:700; }
+    .plan-card.featured .plan-features li::before { color:var(--sky); }
+    .plan-card.legacy-featured .plan-features li::before { color:#a3e4b8; }
+
+    .plan-btn {
+      display:block; width:100%; text-align:center;
+      font-family:var(--sans); font-size:13px; font-weight:600; letter-spacing:0.04em;
+      padding:12px 20px; border:2px solid var(--navy); background:transparent; color:var(--navy);
+      cursor:pointer; transition:all 0.2s; border-radius:2px; text-decoration:none;
+    }
+    .plan-btn:hover { background:var(--navy); color:var(--white); }
+    .plan-btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .plan-card.featured .plan-btn { border-color:var(--white); color:var(--white); }
+    .plan-card.featured .plan-btn:hover { background:var(--white); color:var(--navy); }
+    .plan-card.trial    .plan-btn { border-color:var(--blue); color:var(--blue); background:var(--white); }
+    .plan-card.trial    .plan-btn:hover { background:var(--blue); color:var(--white); }
+    .plan-card.legacy-featured .plan-btn { border-color:var(--white); color:var(--white); }
+    .plan-card.legacy-featured .plan-btn:hover { background:var(--white); color:var(--green); }
+    .plan-card.legacy-trial    .plan-btn { border-color:var(--green); color:var(--green); background:var(--white); }
+    .plan-card.legacy-trial    .plan-btn:hover { background:var(--green); color:var(--white); }
+
+    .plan-features li u {
+      margin-left: -0.25em;
+    }
+
+    /* ── COMPARISON NOTE ── */
+    .compare-note {
+      background: var(--navy);
+      padding: 48px;
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .compare-note h3 {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .compare-note p {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.52);
+      line-height: 1.7;
+    }
+    .compare-note .btn-compare {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--white);
+      padding: 14px 32px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .compare-note .btn-compare:hover { background: var(--cream); }
+
+    /* ── FAQ ── */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      margin-top: 48px;
+    }
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      transition: background 0.2s;
+    }
+    .faq-item:hover { background: var(--cream); }
+    .faq-item h4 {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .faq-item p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CTA ── */
+    #cta { background:var(--navy); text-align:center; padding:100px 48px; position:relative; overflow:hidden; }
+    #cta::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--orange); }
+    .cta-kicker { justify-content:center; }
+    #cta .section-title { color:var(--white); margin:0 auto 16px; }
+    .cta-desc { font-size:17px; font-weight:300; color:rgba(255,255,255,0.52); max-width:500px; line-height:1.75; margin:0 auto 40px; }
+    .cta-actions { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .btn-cta-primary { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--navy); background:var(--white); padding:14px 32px; border-radius:2px; text-decoration:none; transition:background 0.2s; }
+    .btn-cta-primary:hover { background:var(--cream); }
+    .btn-cta-secondary { font-family:var(--sans); font-size:14px; font-weight:400; color:rgba(255,255,255,0.72); border:1px solid rgba(255,255,255,0.22); padding:14px 32px; border-radius:2px; text-decoration:none; transition:all 0.2s; }
+    .btn-cta-secondary:hover { color:var(--white); border-color:rgba(255,255,255,0.6); }
+
+    /* ── FOOTER ── */
+    footer { background:var(--navy2); border-top:4px solid var(--navy3); padding:56px 48px 40px; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:48px; }
+    .footer-logo-name { font-family:var(--serif); font-size:18px; font-weight:700; color:var(--white); }
+    .footer-logo-name span { color:var(--orange); }
+    .footer-tagline { font-size:13px; font-weight:300; color:rgba(255,255,255,0.38); line-height:1.65; margin-top:10px; max-width:220px; }
+    .footer-col h5 { font-family:var(--sans); font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.32); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:10px; }
+    .footer-col ul li a { font-size:13px; font-weight:300; color:rgba(255,255,255,0.48); text-decoration:none; transition:color 0.2s; }
+    .footer-col ul li a:hover { color:rgba(255,255,255,0.85); }
+    .footer-bottom { background:var(--navy); border-top:1px solid rgba(255,255,255,0.06); padding:18px 48px; display:flex; justify-content:space-between; align-items:center; }
+    .footer-copy { font-family:var(--sans); font-size:12px; color:rgba(255,255,255,0.28); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1100px) and (min-width:769px) {
+      .plans-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:768px) {
+      .top-bar { display:none; }
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      section { padding:56px 20px; }
+      .page-header { padding:56px 20px 48px; }
+      .plans-grid { grid-template-columns:1fr; }
+      .category-header { flex-direction:column; align-items:flex-start; gap:16px; }
+      .compare-note { grid-template-columns:1fr; text-align:center; }
+      .faq-grid { grid-template-columns:1fr; }
+      footer { grid-template-columns:1fr 1fr; }
+      .rule { margin:0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span class="top-bar-left"></span>
+  <ul class="top-bar-links">
+  </ul>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-name">Lantern<span> Energy</span></div>
+    <span class="logo-tagline">Intelligence Platform</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#coverage">Coverage</a></li>
+    <li><a href="lantern_pricing.html" class="active">Plans</a></li>
+    <li><a href="index.html#consulting">Research</a></li>
+    <li><a href="index.html#clients">Clients</a></li>
+    <li><a href="login.html" class="nav-cta">Log In</a></li>
+    <li><a href="login.html" class="nav-cta">Create Account</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="section-kicker">Subscription Plans</div>
+  <h1>Access calibrated to <em>your market</em></h1>
+  <p>Choose the data package that fits your focus — energy transition and renewables, legacy assets, or both. All plans include full platform dashboard access.</p>
+</div>
+
+<!-- BILLING TOGGLE -->
+<section style="padding-bottom:0; padding-top:40px;">
+  <div class="pricing-toggle reveal">
+    <span>Monthly</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="billing-toggle" onchange="document.body.classList.toggle('annual', this.checked)"/>
+      <span class="toggle-slider"></span>
+    </label>
+    <span class="toggle-label">Annual</span>
+    <span class="toggle-save">Save 15%</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- ENERGY TRANSITION / RENEWABLE PLANS    -->
+<!-- ═══════════════════════════════════════ -->
+<section id="renewable-plans" style="padding-top:0;">
+  <div class="category-header reveal">
+    <div>
+      <span class="category-icon">☀️</span>
+      <div class="section-kicker">Energy Transition & Renewable Data</div>
+      <h2 class="section-title">Solar, Wind, Batteries, Hydro & Data Center Asset Intelligence</h2>
+      <p class="section-desc">Institutional-grade data on every operating and planned renewable energy assets, battery storage deployments, data centers, and the grid interconnection queue in the U.S.</p>
+    </div>
+  </div>
+
+  <div class="plans-grid reveal">
+    <!-- RENEWABLE TIER 1: Free Trial -->
+    <div class="plan-card trial">
+      <div class="plan-badge trial-b">7-Day Free Trial</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 01</div>
+      <div class="plan-name">Explorer</div>
+      <div class="plan-price"><strong>$0 / 7 days</strong></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Access to all 50 states</li>
+        <li>Solar, wind, hydro, & batteries</li>
+        <li>Coal, nuclear, & natural gas power plants</li>
+        <li>Operating assets</li>
+        <li>Standard map and filter tools</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('renewable_trial')">Start Free Trial</button>
+    </div>
+
+    <!-- RENEWABLE TIER 2: Professional -->
+    <div class="plan-card featured">
+      <div class="plan-badge popular">Most Popular</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 02</div>
+      <div class="plan-name">Professional</div>
+      <div class="plan-price price-monthly"><strong>$450 / month</strong></div>
+      <div class="plan-price price-annual"><strong>$4,590 / year</strong> <span style="font-size:11px;color:var(--orange);font-weight:600;">Save 15%</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Access to all 50 states</li>
+        <li>Solar, wind, hydro, & batteries</li>
+        <li>Coal, nuclear, & natural gas power plants</li>
+        <li>Data centers</li>
+        <li>Operating assets</li>
+        <li>Planned assets</li>
+        <li>Email support</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('renewable_professional')">Get Started</button>
+    </div>
+
+    <!-- RENEWABLE TIER 3: Professional+ -->
+    <div class="plan-card featured">
+      <div class="plan-badge popular">Best Value</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 03</div>
+      <div class="plan-name">Professional+</div>
+      <div class="plan-price price-monthly"><strong>$750 / month</strong></div>
+      <div class="plan-price price-annual"><strong>$7,650 / year</strong> <span style="font-size:11px;color:var(--orange);font-weight:600;">Save 15%</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Access to all 50 states</li>
+        <li>Everything in Professional</li>
+        <li>Developers for all planned assets</li>
+        <li>Operating assets</li>
+        <li>Planned assets</li>
+        <li>Retired assets</li>
+        <li>Phone support (as needed)</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('renewable_professional_plus')">Get Started</button>
+    </div>
+
+    <!-- RENEWABLE TIER 4: Institutional -->
+    <div class="plan-card trial">
+      <div class="plan-badge trial-b">Custom Engagement</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 04</div>
+      <div class="plan-name">Institutional</div>
+      <div class="plan-price"><strong>Custom pricing</strong></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Professional+</li>
+        <li>Multi-seat team access</li>
+        <li>Consulting/Market Research Engagements</li>
+        <li>White-label data options</li>
+        <li>Custom data integrations and API</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('renewable_institutional')">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- LEGACY ENERGY DATA PLANS               -->
+<!-- ═══════════════════════════════════════ -->
+<section id="legacy-plans">
+  <div class="category-header reveal">
+    <div>
+      <span class="category-icon">⛏️</span>
+      <div class="section-kicker">Legacy Energy & Abandoned Asset Data</div>
+      <h2 class="section-title">Orphan Wells, Retired Fossil Fuel Plants & Abandoned Mines</h2>
+      <p class="section-desc">The most complete dataset on legacy energy assets in the U.S. — orphaned oil and gas wells,<br/>retired coal & natural gas plants, abandoned coal mines, and reclamation status.</p>
+    </div>
+  </div>
+
+  <div class="plans-grid reveal">
+    <!-- LEGACY TIER 1: Free Trial -->
+    <div class="plan-card legacy-trial">
+      <div class="plan-badge legacy-trial-b">7-Day Free Trial</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 01</div>
+      <div class="plan-name">Explorer</div>
+      <div class="plan-price"><strong>$0 / 7 days</strong></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>1 state</li>
+        <li>Visualized well location (lat/long-tied)</li>
+        <li>Identification of newest wells (past 1-3 months)</li>
+        <li>Updated<u>monthly</u></li>
+        <li>Standard map and filter tools</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('legacy_trial')">Start Free Trial</button>
+    </div>
+
+    <!-- LEGACY TIER 2: Professional -->
+    <div class="plan-card legacy-featured">
+      <div class="plan-badge legacy-popular">Most Popular</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 02</div>
+      <div class="plan-name">Professional</div>
+      <div class="plan-price price-monthly"><strong>$250 / month</strong></div>
+      <div class="plan-price price-annual"><strong>$2,550 / year</strong> <span style="font-size:11px;color:#a3e4b8;font-weight:600;">Save 15%</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Up to 2 states</li>
+        <li>Visualized well location (lat/long-tied)</li>
+        <li>Identification of newest wells (past 1-3 months)</li>
+        <li>Updated<u>monthly</u></li>
+        <li>Email support</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('legacy_professional')">Get Started</button>
+    </div>
+
+    <!-- LEGACY TIER 3: Professional+ -->
+    <div class="plan-card legacy-featured">
+      <div class="plan-badge legacy-popular">Best Value</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 03</div>
+      <div class="plan-name">Professional+</div>
+      <div class="plan-price price-monthly"><strong>$750 / month</strong></div>
+      <div class="plan-price price-annual"><strong>$7,650 / year</strong> <span style="font-size:11px;color:#a3e4b8;font-weight:600;">Save 15%</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Up to 6 states</li>
+        <li>Everything in Professional</li>
+        <li>Identification of newest wells (past 1-3 months)</li>
+        <li>Updated<u>weekly for immediate actioning</u></li>
+        <li>Monthly legacy asset digest</li>
+        <li>Phone support (as needed)</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('legacy_professional_plus')">Get Started</button>
+    </div>
+
+    <!-- LEGACY TIER 4: Institutional -->
+    <div class="plan-card legacy-trial">
+      <div class="plan-badge legacy-trial-b">Custom Engagement</div>
+      <div class="plan-tier" style="margin-top:18px;">Tier 04</div>
+      <div class="plan-name">Institutional</div>
+      <div class="plan-price"><strong>Custom pricing</strong></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>7+ states</li>
+        <li>Everything in Professional+</li>
+        <li>Location of wells vs. sensitive areas (schools, hospitals, etc.)</li>
+        <li>Multi-seat team access</li>
+        <li>Consulting/Market Research Engagements</li>
+      </ul>
+      <button class="plan-btn" onclick="startCheckout('legacy_institutional')">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- BUNDLE CALLOUT -->
+<section style="padding-top:40px; padding-bottom:40px;">
+  <div class="compare-note reveal">
+    <div>
+      <h3>Need both renewable and legacy data?</h3>
+      <p>Institutional clients frequently bundle both data packages at a discount. Contact our team to build a custom plan that spans the full energy landscape — from abandoned mine to clean energy opportunity.</p>
+    </div>
+    <div style="text-align:center;">
+      <a href="index.html#cta" class="btn-compare">Contact Sales for Bundle Pricing</a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-kicker reveal">Common Questions</div>
+  <h2 class="section-title reveal">Frequently asked questions</h2>
+
+  <div class="faq-grid reveal">
+    <div class="faq-item">
+      <h4>Can I switch between plans?</h4>
+      <p>Yes. You can upgrade, downgrade, or switch between the renewable and legacy data packages at any time. Changes take effect at the start of your next billing cycle.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What does the free trial include?</h4>
+      <p>Each free trial gives you 7 days of full platform access to the core datasets in that category. No credit card required to start.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Are consulting engagements included?</h4>
+      <p>Consulting is available separately or bundled at a discount for Professional+ and Institutional subscribers. Contact sales for details.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How often is the data updated?</h4>
+      <p>Most datasets are updated on a 48-hour cycle. Some regulatory and government-sourced data follows their native publication schedule.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Is there an API available?</h4>
+      <p>API access is available for Professional+ and Institutional plans. Custom data integrations can be configured for institutional subscribers.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I get a bundle discount?</h4>
+      <p>Absolutely. Institutional clients frequently combine both data packages. Reach out to our sales team for custom bundle pricing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-kicker cta-kicker reveal">Get Started</div>
+  <h2 class="section-title reveal">Ready to see the full picture?</h2>
+  <p class="cta-desc reveal">Whether you need platform access, a custom research engagement, or a demo for your team — we're ready to show you what Lantern can do.</p>
+  <div class="cta-actions reveal">
+    <a href="login.html" class="btn-cta-primary">Create Account</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo-name">Lantern<span> Energy Intelligence</span></div>
+    <p class="footer-tagline">Illuminating opportunity across the energy transition and legacy asset landscape.</p>
+  </div>
+  <div class="footer-col">
+    <h5>Platform</h5>
+    <ul>
+      <li><a href="index.html#coverage">Data Coverage</a></li>
+      <li><a href="lantern_pricing.html">Subscription Plans</a></li>
+      <li><a href="#">API Access</a></li>
+      <li><a href="#">Methodology</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Research</h5>
+    <ul>
+      <li><a href="index.html#consulting">Site Feasibility</a></li>
+      <li><a href="index.html#consulting">Portfolio Risk</a></li>
+      <li><a href="index.html#consulting">M&A Support</a></li>
+      <li><a href="index.html#consulting">Policy Intelligence</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Company</h5>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">&copy; 2026 Lantern Energy Intelligence. All rights reserved.</span>
+</div>
+
+<script>
+  function startCheckout(plan) {
+    alert('Checkout flow for: ' + plan + '\n\nThis will connect to your payment processor.');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
