@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,32 @@
   Functionality imported from: platform_old.html
   Added: open all tool and nav links in new tabs
 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Hide page until auth check completes
+  document.documentElement.style.display = "none";
+
+  async function protectPlatformPage() {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      window.location.href = "login.html";
+    } else {
+      document.documentElement.style.display = "block";
+    }
+  }
+
+  protectPlatformPage();
+</script>
+
+  
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
