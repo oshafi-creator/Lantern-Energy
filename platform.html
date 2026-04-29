@@ -22,7 +22,8 @@
 
   // Hide page until auth check completes
   document.documentElement.style.display = "none";
-
+  window.location.replace("login.html");
+  
   async function protectPlatformPage() {
     const { data: { session } } = await supabase.auth.getSession();
 
