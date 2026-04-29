@@ -12,23 +12,38 @@
   Added: open all tool and nav links in new tabs
 -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  document.documentElement.style.display = "none";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
   const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  document.documentElement.style.display = "none";
-
   async function protectPlatformPage() {
-    const { data: { session } } = await supabase.auth.getSession();
+    try {
+      if (!window.supabase) {
+        window.location.replace("/login.html");
+        return;
+      }
 
-    if (!session) {
-      window.location.replace("login.html");
-    } else {
+      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+      console.log("Supabase session:", session);
+      console.log("Supabase error:", error);
+
+      if (!session) {
+        window.location.replace("/login.html");
+        return;
+      }
+
       document.documentElement.style.display = "block";
+    } catch (err) {
+      console.error("Auth check failed:", err);
+      window.location.replace("/login.html");
     }
   }
 
