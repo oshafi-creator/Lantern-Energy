@@ -59,6 +59,22 @@ body {
 }
 
 /* ── HEADER ── */
+
+#header nav a:hover { color: #ffffff; }
+  #header nav a.nav-cta {
+  background: #e07020 !important;
+  color: #ffffff !important;
+  border-radius: 3px;
+  font-weight: 600 !important;
+  padding: 10px 20px !important;
+  height: auto !important;
+  transition: background 0.2s !important;
+}
+
+#header nav a.nav-cta:hover {
+  background: #f07034 !important;
+  color: #ffffff !important;
+}
 #header {
   background: #1a3a5c;
   padding: 0 48px;
@@ -369,6 +385,7 @@ body {
     <a target="_blank" rel="noopener noreferrer" href="utilities_map_v3.html">Utilities</a>
     <a target="_blank" rel="noopener noreferrer" href="orphan_wells_texas.html">Orphan Wells</a>
     <a target="_blank" rel="noopener noreferrer" href="/cdn-cgi/l/email-protection#70191e161f301c111e0415021e151e150217095e131f1d">Contact</a>
+    <a href="#" class="nav-cta" onclick="logoutUser(); return false;">Log Out</a>
   </nav>
 </div>
 
@@ -605,6 +622,13 @@ body {
   <div class="left">&copy; 2026 Lantern Energy. All rights reserved.</div>
   <div class="right">Contact</div>
 </div>
+
+<script>
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+    window.location.href = "login.html";
+  }
+</script>
 
 </body>
 </html>
