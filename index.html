@@ -1005,31 +1005,37 @@
 
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  async function updateAuthNav() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+async function updateAuthNav() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const nav = document.querySelector(".nav-links");
-    if (!nav) return;
+  const nav = document.querySelector(".nav-links");
+  if (!nav) return;
 
-    const loginButtons = nav.querySelectorAll('a[href="login.html"]');
+  if (user) {
+    // Remove Log In + Create Account (based on TEXT, not href)
+    const allLinks = nav.querySelectorAll("a");
 
-    if (user) {
-      loginButtons.forEach(link => {
+    allLinks.forEach(link => {
+      const text = link.textContent.trim().toLowerCase();
+
+      if (text === "log in" || text === "create account" || text === "log out") {
         const li = link.closest("li");
         if (li) li.remove();
-      });
+      }
+    });
 
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="#" class="nav-cta" id="logoutBtn">Log Out</a>`;
-      nav.appendChild(li);
+    // Add Log Out
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#" class="nav-cta" id="logoutBtn">Log Out</a>`;
+    nav.appendChild(li);
 
-      document.getElementById("logoutBtn").addEventListener("click", async (e) => {
-        e.preventDefault();
-        await supabaseClient.auth.signOut();
-        window.location.href = "index.html";
-      });
-    }
+    document.getElementById("logoutBtn").addEventListener("click", async (e) => {
+      e.preventDefault();
+      await supabaseClient.auth.signOut();
+      window.location.href = "index.html";
+    });
   }
+}
 
   updateAuthNav();
 </script>
