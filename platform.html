@@ -16,34 +16,30 @@
   document.documentElement.style.display = "none";
 </script>
 
+<script>
+  document.documentElement.style.display = "none";
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
   const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
 
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
   async function protectPlatformPage() {
     try {
-      if (!window.supabase) {
-        window.location.replace("/login.html");
-        return;
-      }
+      const { data: { user }, error } = await supabaseClient.auth.getUser();
 
-      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const { data: { session }, error } = await supabaseClient.auth.getSession();
-
-      console.log("Supabase session:", session);
-      console.log("Supabase error:", error);
-
-      if (!session) {
-        window.location.replace("/login.html");
+      if (error || !user) {
+        window.location.replace("login.html");
         return;
       }
 
       document.documentElement.style.display = "block";
     } catch (err) {
-      console.error("Auth check failed:", err);
-      window.location.replace("/login.html");
+      window.location.replace("login.html");
     }
   }
 
