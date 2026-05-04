@@ -459,6 +459,17 @@
 
     setMessage('Password reset email sent. Check your inbox.');
   });
+
+  function handleEnterLogin(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    document.getElementById("loginBtn").click();
+  }
+}
+
+emailEl.addEventListener("keydown", handleEnterLogin);
+passwordEl.addEventListener("keydown", handleEnterLogin);
+  
 </script>
 </body>
 </html>
