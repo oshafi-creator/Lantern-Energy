@@ -997,4 +997,42 @@
   }
 </script>
 </body>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function updateAuthNav() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const nav = document.querySelector(".nav-links");
+    if (!nav) return;
+
+    const loginButtons = nav.querySelectorAll('a[href="login.html"]');
+
+    if (user) {
+      loginButtons.forEach(link => {
+        const li = link.closest("li");
+        if (li) li.remove();
+      });
+
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="#" class="nav-cta" id="logoutBtn">Log Out</a>`;
+      nav.appendChild(li);
+
+      document.getElementById("logoutBtn").addEventListener("click", async (e) => {
+        e.preventDefault();
+        await supabaseClient.auth.signOut();
+        window.location.href = "index.html";
+      });
+    }
+  }
+
+  updateAuthNav();
+</script>
+  
 </html>
