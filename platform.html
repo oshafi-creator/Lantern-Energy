@@ -400,8 +400,8 @@ body {
     <a target="_blank" rel="noopener noreferrer" href="wws_map_v3.html">Wind, Water & Solar</a>
     <a target="_blank" rel="noopener noreferrer" href="utilities_map_v3.html">Utilities</a>
     <a target="_blank" rel="noopener noreferrer" href="orphan_wells_texas.html">Orphan Wells</a>
-<a href="mailto:paul@pcr-mc.com?subject=Lantern%20Platform%20Inquiry" class="nav-cta">Contact</a>
-  </nav>
+    <a href="mailto:paul@pcr-mc.com?subject=Lantern%20Platform%20Inquiry" class="nav-cta">Contact</a>
+    <a href="#" class="nav-cta" onclick="logoutUser(); return false;">Log Out</a>  </nav>
 </div>
 
 <!-- HERO -->
@@ -641,45 +641,14 @@ body {
 <script>
   async function logoutUser() {
     await supabaseClient.auth.signOut();
-    window.location.href = "login.html";
-  }
+window.location.href = "index.html";  }
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-  const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
-
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  async function updateAuthNav() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    const nav = document.querySelector(".nav-links");
-    if (!nav) return;
-
-    const loginButtons = nav.querySelectorAll('a[href="login.html"]');
-
-    if (user) {
-      loginButtons.forEach(link => {
-        const li = link.closest("li");
-        if (li) li.remove();
-      });
-
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="#" class="nav-cta" id="logoutBtn">Log Out</a>`;
-      nav.appendChild(li);
-
-      document.getElementById("logoutBtn").addEventListener("click", async (e) => {
-        e.preventDefault();
-        await supabaseClient.auth.signOut();
-        window.location.href = "index.html";
-      });
-    }
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
   }
-
-  updateAuthNav();
 </script>
   
 </body>
