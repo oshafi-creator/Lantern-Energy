@@ -294,6 +294,15 @@
 </head>
 <body>
 
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const isCheckout = params.get("checkout") === "complete";
+
+  if (!isCheckout) {
+    window.location.replace("lantern_pricing.html");
+  }
+</script>
+  
 <div class="top-bar">
   <span class="top-bar-left">Checkout Complete</span>
 </div>
@@ -322,7 +331,7 @@
 
   <div class="success-panel">
     <div class="success-card">
-      <div class="status-pill">Checkout Complete</div>
+    <div class="status-pill" id="statusPill">Checkout Complete</div>      
       <h2>Next step: log in</h2>
       <p>Your subscription or trial has been started successfully.</p>
       <p class="important-note"><strong>Important:</strong> Use the same email address you used during Stripe checkout. This is how Lantern connects your payment to your platform access.</p>
@@ -379,5 +388,41 @@
   updateSuccessNav();
 </script>
 
+<script>
+  async function autoRedirectIfReady() {
+    const statusPill = document.getElementById("statusPill");
+
+    if (statusPill) {
+      statusPill.textContent = "Checking Access...";
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      if (statusPill) statusPill.textContent = "Checkout Complete";
+      return;
+    }
+
+    const { data: access } = await supabaseClient
+      .from("user_access")
+      .select("has_access")
+      .eq("user_id", user.id)
+      .single();
+
+    if (access && access.has_access === true) {
+      if (statusPill) statusPill.textContent = "Access Confirmed";
+      window.location.replace("platform.html");
+      return;
+    }
+
+    if (statusPill) {
+      statusPill.textContent = "Login Required";
+    }
+  }
+
+  autoRedirectIfReady();
+</script>
+  
+  
 </body>
 </html>
