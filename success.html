@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout Complete | Lantern Energy Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Libre+Franklin:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0c1a2e;
+      --navy2: #14243d;
+      --navy3: #1d334f;
+      --sky: #5bafd6;
+      --orange: #e05a1e;
+      --orange2: #f07034;
+      --cream: #faf8f3;
+      --cream2: #f0ebe0;
+      --border: #dbd4c8;
+      --text: #18120a;
+      --text2: #3a2e22;
+      --muted: #7a6d5e;
+      --white: #ffffff;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Libre Franklin', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background: var(--navy);
+      padding: 7px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .top-bar-left {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--white);
+      border-bottom: 4px solid var(--navy);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    }
+    .nav-logo { text-decoration: none; }
+    .logo-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .logo-name span { color: var(--orange); }
+    .logo-tagline {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+      height: 100%;
+    }
+    .nav-links li { height: 100%; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 0 18px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      border-bottom: 4px solid transparent;
+      margin-bottom: -4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: var(--navy); border-bottom-color: var(--orange); }
+    .nav-cta {
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      border-radius: 3px;
+      border-bottom: none !important;
+      margin-bottom: 0 !important;
+      margin-left: 12px;
+      margin-top: 18px;
+      font-weight: 600 !important;
+      padding: 10px 20px !important;
+      height: auto !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange2) !important; }
+
+    .success-shell {
+      min-height: calc(100vh - 111px);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .success-hero {
+      background: var(--navy);
+      padding: 80px 56px 80px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 75% 35%, rgba(91,175,214,0.18), transparent 42%);
+      pointer-events: none;
+    }
+    .kicker {
+      position: relative;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .kicker::before { content: ''; width: 28px; height: 2px; background: var(--orange); }
+    .success-hero h1 {
+      position: relative;
+      font-family: var(--serif);
+      font-size: clamp(38px, 4.5vw, 62px);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .success-hero h1 em { color: var(--sky); font-style: italic; }
+    .success-hero p {
+      position: relative;
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.62);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .success-panel {
+      background: var(--cream2);
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.08);
+      padding: 36px 32px;
+    }
+    .status-pill {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid var(--border);
+      background: var(--cream);
+      padding: 6px 10px;
+      margin-bottom: 18px;
+    }
+    .success-card h2 {
+      font-family: var(--serif);
+      font-size: 32px;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .success-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .important-note {
+      background: var(--cream);
+      border-left: 4px solid var(--orange);
+      padding: 14px 16px;
+      margin: 20px 0 24px;
+      color: var(--text2) !important;
+      font-size: 13px !important;
+    }
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: var(--sans);
+      transition: opacity .2s, transform .12s;
+    }
+    .btn:hover { opacity: .94; }
+    .btn:active { transform: scale(.99); }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-secondary { background: var(--orange); color: var(--white); }
+    .mini-steps {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: 10px;
+    }
+    .mini-step {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      align-items: start;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .mini-step span {
+      font-family: var(--mono);
+      color: var(--orange);
+      font-size: 11px;
+      padding-top: 2px;
+    }
+
+    footer {
+      background: var(--navy2);
+      border-top: 4px solid var(--navy3);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.32); }
+
+    @media (max-width: 900px) {
+      .top-bar { display: none; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .success-shell { grid-template-columns: 1fr; }
+      .success-hero { padding: 56px 24px; }
+      .success-panel { padding: 32px 20px 56px; }
+      .success-card h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="top-bar-left">Checkout Complete</span>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-name">Lantern<span> Energy</span></div>
+    <span class="logo-tagline">Intelligence Platform</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#coverage">Coverage</a></li>
+    <li><a href="lantern_pricing.html">Plans</a></li>
+    <li><a href="index.html#consulting">Research</a></li>
+    <li><a href="index.html#clients">Clients</a></li>
+    <li><a href="login.html" class="nav-cta">Log In</a></li>
+  </ul>
+</nav>
+
+<section class="success-shell">
+  <div class="success-hero">
+    <div class="kicker">Access Started</div>
+    <h1>Your Lantern access is <em>almost ready</em></h1>
+    <p>Your checkout was completed successfully. Lantern will now use the email from checkout to verify your platform access.</p>
+    <p>The final step is to log in or create your account using that same email address.</p>
+  </div>
+
+  <div class="success-panel">
+    <div class="success-card">
+      <div class="status-pill">Checkout Complete</div>
+      <h2>Next step: log in</h2>
+      <p>Your subscription or trial has been started successfully.</p>
+      <p class="important-note"><strong>Important:</strong> Use the same email address you used during Stripe checkout. This is how Lantern connects your payment to your platform access.</p>
+
+      <div class="actions">
+        <a href="login.html" class="btn btn-primary">Log In or Create Account</a>
+        <a href="platform.html" class="btn btn-secondary">Open Platform</a>
+      </div>
+
+      <div class="mini-steps">
+        <div class="mini-step"><span>01</span><div>Log in or create an account with the same email used at checkout.</div></div>
+        <div class="mini-step"><span>02</span><div>If prompted, confirm your email from the Supabase verification message.</div></div>
+        <div class="mini-step"><span>03</span><div>After login, return to the platform and your access will be checked automatically.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">&copy; 2026 Lantern Energy Intelligence. All rights reserved.</span>
+  <span class="footer-copy">Illuminating the Energy Transition</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function updateSuccessNav() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const nav = document.querySelector(".nav-links");
+    if (!nav || !user) return;
+
+    nav.querySelectorAll("a").forEach(link => {
+      const text = link.textContent.trim().toLowerCase();
+      if (text === "log in" || text === "create account" || text === "log out") {
+        const li = link.closest("li");
+        if (li) li.remove();
+      }
+    });
+
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#" class="nav-cta" id="logoutBtn">Log Out</a>`;
+    nav.appendChild(li);
+
+    document.getElementById("logoutBtn").addEventListener("click", async (e) => {
+      e.preventDefault();
+      await supabaseClient.auth.signOut();
+      window.location.href = "index.html";
+    });
+  }
+
+  updateSuccessNav();
+</script>
+
+</body>
+</html>
