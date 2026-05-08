@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Lantern protected-page auth guard -->
+<script>document.documentElement.style.display = "none";</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://wfllgewdehtbnhtxzgcw.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_QYDr-CojuMsk2RkJEhZiNQ_muXKjaYD";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function protectPlatformPage() {
+    try {
+      const { data: { user }, error } = await supabaseClient.auth.getUser();
+      if (error || !user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      const { data: access, error: accessError } = await supabaseClient
+        .from("user_access")
+        .select("has_access, plan_name")
+        .eq("user_id", user.id)
+        .single();
+
+      if (accessError || !access || access.has_access !== true) {
+        window.location.replace("lantern_pricing.html");
+        return;
+      }
+
+      document.documentElement.style.display = "block";
+    } catch (err) {
+      window.location.replace("login.html");
+    }
+  }
+
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
+  }
+
+  protectPlatformPage();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>US Wind-Water-Solar Map</title>
