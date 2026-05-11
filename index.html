@@ -643,7 +643,7 @@
       <h1 class="hero-headline">Data infrastructure<br/>for the <span class="blue-text">energy transition</span></h1>
       <p class="hero-sub">Lantern delivers institutional-grade data and research across data centers, renewables, battery storage, and legacy energy assets — the full spectrum of America's energy transformation.</p>
       <div class="hero-actions">
-        <a href="lantern_pricing.html" class="btn-hero-primary">Enter<br/>Platform</a>
+        <a href="enter-platform.html" class="btn-hero-primary">Enter<br/>Platform</a>
         <a href="#consulting" class="btn-hero-secondary">Custom<br/>Research</a>
       </div>
     </div>
@@ -1039,6 +1039,26 @@ async function updateAuthNav() {
 
   updateAuthNav();
 </script>
+
+<script>
+document.getElementById("enterPlatformBtn").addEventListener("click", async function(e) {
+
+  e.preventDefault();
+
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  // NOT LOGGED IN
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // LOGGED IN
+  window.location.href = "platform.html";
+
+});
+</script>
+  
 </body>
 
   
